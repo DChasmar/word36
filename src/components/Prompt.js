@@ -12,16 +12,10 @@ function Prompt() {
       ["", "", ""]
     ];
 
-    const iconGridColors = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0]
-    ];
-
-    const playDaily = () => {
-      setIsVisible(false); // Trigger the fade-out effect
-      setTimeout(() => hidePrompt(), 500); // Call hidePrompt after the fade-out duration (in this case, 500ms)
-    }
+    // const playDaily = () => {
+    //   setIsVisible(false); // Trigger the fade-out effect
+    //   setTimeout(() => hidePrompt(), 500); // Call hidePrompt after the fade-out duration (in this case, 500ms)
+    // }
 
     const practice = () => {
       setShowNumbers(true);
@@ -46,7 +40,7 @@ function Prompt() {
             </div>
           ))}
         </div>
-        <h1>Word 36</h1>
+        <h1>Word Grid</h1>
         <button className="play-button" onClick={practice}>
             Play
         </button>
@@ -59,6 +53,8 @@ function Prompt() {
             <button className="size-number" onClick={() => chooseGridSize(5)}>5</button>
             <button className="size-number" onClick={() => chooseGridSize(6)}>6</button>
             <button className="size-number" onClick={() => chooseGridSize(7)}>7</button>
+            <button className="size-number" onClick={() => chooseGridSize(8)}>8</button>
+            <button className="size-number" onClick={() => chooseGridSize(9)}>9</button>
           </div>
         </div>}
     </div>

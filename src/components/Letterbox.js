@@ -1,18 +1,26 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, useRef } from 'react';
 import { AppContext } from '../App';
 import Letter from './Letter';
-import words7 from './SevenLetterWords.json'
-import words6 from './SixLetterWords.json'
-import words5 from './FiveLetterWords.json'
-import words4 from './FourLetterWords.json'
-import words3 from './ThreeLetterWords.json'
+import WinModal from './WinModal';
+import words9 from './WordLists/NineLetterWords.json'
+import words8 from './WordLists/EightLetterWords.json'
+import words7 from './WordLists/SevenLetterWords.json'
+import words6 from './WordLists/SixLetterWords.json'
+import words5 from './WordLists/FiveLetterWords.json'
+import words4 from './WordLists/FourLetterWords.json'
+import words3 from './WordLists/ThreeLetterWords.json'
 
 export const LetterboxContext = createContext();
 
 function Letterbox() {
-    const { matrixLength, wins, setWins } = useContext(AppContext);
+    const { matrixLength, setWins } = useContext(AppContext);
     const [chosenWords, setChosenWords] = useState([]);
     const [wordSet, setWordSet] = useState(new Set());
+
+    const dragLetter = useRef(0);
+    const draggedOverLetter = useRef(0);
+
+    const [swapCount, setSwapCount] = useState(-1);
     
     const createSquareMatrix = (length, defaultValue) => {
       const matrix = [];
@@ -31,7 +39,15 @@ function Letterbox() {
 
     const [swapIndex, setSwapIndex] = useState([]);
 
-    const gameOver = async () => {
+    const [winModalIsOpen, setWinModalIsOpen] = useState(false);
+
+    const closeModal = () => {
+      newGame()
+      setWinModalIsOpen(false);
+      setSwapCount(-1);
+    };
+
+    const gameOver = () => {
       setWins(prevWins => {
         let updatedWins = { ...prevWins }; // Create a copy of the current state
       
@@ -45,10 +61,17 @@ function Letterbox() {
           updatedWins.six = (updatedWins.six || 0) + 1;
         } else if (matrixLength === 7) {
           updatedWins.seven = (updatedWins.seven || 0) + 1;
+        } else if (matrixLength === 8) {
+          updatedWins.eight = (updatedWins.six || 0) + 1;
+        } else if (matrixLength === 9) {
+          updatedWins.nine = (updatedWins.seven || 0) + 1;
         }
-      
         return updatedWins; // Return the updated state
       });
+      setWinModalIsOpen(true); 
+    }
+
+    const newGame = async () => {
       const result = await generateChosenWords(wordSet);
       setChosenWords(result);
     }
@@ -59,12 +82,7 @@ function Letterbox() {
         const temp = updatedGrid[rowIndex][columnIndex];
         updatedGrid[rowIndex][columnIndex] = updatedGrid[swapIndex[0]][swapIndex[1]];
         updatedGrid[swapIndex[0]][swapIndex[1]] = temp;
-
-        // updatedGrid[rowIndex][columnIndex].animate = true;
-        // updatedGrid[swapIndex[0]][swapIndex[1]].animate = true;
-
         setLetterGrid(updatedGrid);
-        setSwapIndex([]); // Reset the swap index
       } else if (swapIndex.length === 0) {
         setSwapIndex([rowIndex, columnIndex]);
       }
@@ -82,13 +100,21 @@ function Letterbox() {
         }
       }
       setGridColors(updatedColors);
+      setSwapIndex([]); // Reset the swap index
+      setSwapCount(swapCount + 1);
       if (count === matrixLength) {
         gameOver();
       }
     }
 
     const generateWordSet = async () => {
-      if (matrixLength === 7) {
+      if (matrixLength === 9) {
+        const nineLetterWordSet = new Set(words9.words);
+        return nineLetterWordSet;
+      } else if (matrixLength === 8) {
+        const eightLetterWordSet = new Set(words8.words);
+        return eightLetterWordSet;
+      } else if (matrixLength === 7) {
         const sevenLetterWordSet = new Set(words7.words);
         return sevenLetterWordSet;
       } else if (matrixLength === 6) {
@@ -140,9 +166,10 @@ function Letterbox() {
       const result = await generateChosenWords(allWords);
       setChosenWords(result);
     };
-      
+    
     useEffect(() => {
-        fetchData();
+      fetchData();
+      // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -161,32 +188,61 @@ function Letterbox() {
         newGrid.push(lettersCopy.splice(0, matrixLength));
       }
       setLetterGrid(newGrid);
+      // eslint-disable-next-line
     }, [chosenWords]);
 
     useEffect(() => {
       checkSolution();
+      // eslint-disable-next-line
     }, [letterGrid]);
 
     useEffect(() => {
+      // eslint-disable-next-line
       setLetterGrid(createSquareMatrix(matrixLength, ""));
       setGridColors(createSquareMatrix(matrixLength, 0));
       fetchData();
+      // eslint-disable-next-line
     }, [matrixLength]);
+
+    const handleSwap = () => {
+      const gridClone = [...letterGrid];
+      const temp = gridClone[dragLetter.current[0]][dragLetter.current[1]];
+      gridClone[dragLetter.current[0]][dragLetter.current[1]]= gridClone[draggedOverLetter.current[0]][draggedOverLetter.current[1]];
+      gridClone[draggedOverLetter.current[0]][draggedOverLetter.current[1]] = temp
+      setLetterGrid(gridClone);
+    }
 
     return (
       <LetterboxContext.Provider 
                 value={{
                   swapLetters,
                   setLetterGrid,
-                  matrixLength
+                  matrixLength,
+                  swapCount
                 }}>
+        {winModalIsOpen && <WinModal isOpen={winModalIsOpen} onRequestClose={closeModal}/>}
         <div className="letterbox">
             <div className="grid-container" style={{ gridTemplateRows: `repeat(${matrixLength}, 1fr)`}}>
               {letterGrid.map((row, rowIndex) => (
                 <div className="grid-row" style={{ gridTemplateColumns: `repeat(${matrixLength}, 1fr)`}} key={rowIndex}>
                   {row.map((letter, columnIndex) => (
-                    <div className="grid-cell" key={columnIndex}>
-                      <Letter letter = {letter} 
+                    <div className="grid-cell" key={columnIndex}
+                      draggable
+                      onDragStart={(e) => {
+                        dragLetter.current = [rowIndex, columnIndex];
+                        e.target.classList.add('dragged-element');
+                      }}
+                      onDragEnter={() => {
+                        draggedOverLetter.current = [rowIndex, columnIndex];
+                      }}
+                      onDragEnd={(e) => {
+                        // Remove the class to reset opacity
+                        e.target.classList.remove('dragged-element');
+                        handleSwap(e);
+                      }}
+                      onDragOver={(e) => e.preventDefault()}>
+                      <Letter
+                      letter = {letter} 
                       rowIndex = {rowIndex} columnIndex = {columnIndex} 
                       color = {gridColors[rowIndex][columnIndex]}
                       swap = {swapIndex[0] === rowIndex && swapIndex[1] === columnIndex}/>

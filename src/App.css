@@ -1,6 +1,12 @@
+/* html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #ccc;
+} */
+
 .App {
   text-align: center;
-  background-color: white;
   justify-content: center;
   align-items: center;
 }
@@ -16,7 +22,6 @@
 }
 
 .game {
-  background: #fff;
   flex: 1 0 auto;
   justify-content: center;
   align-items: center;
@@ -40,6 +45,7 @@
   font-size: 6.7vw;
   font-weight: 900;
   cursor: pointer;
+  user-select: none;
 }
 
 .grid-container {
@@ -113,6 +119,10 @@
   transition: opacity 0.5s ease; /* Adjust the duration and timing function as needed */
 }
 
+.prompt.hidden {
+  opacity: 0;
+}
+
 .icon-circle {
   width: min(4vh, 4vw);
   height: min(4vh, 4vw);
@@ -121,6 +131,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   font-size: min(2vh, 2vw);
   font-weight: 400;
@@ -148,14 +159,10 @@
   padding: 0 2em;
 }
 
-.prompt.hidden {
-  opacity: 0;
-}
-
 .grid-size-container{
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
+  gap: 5px;
 }
 
 .size-number{
@@ -167,10 +174,15 @@
   font-weight: 500;
   place-items: center;
   justify-content: center;
+  text-align: center;
   background-color: black;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   min-width: "unset";
   padding: "0";
+}
+
+.dragged-element {
+  opacity: 1.0;
 }

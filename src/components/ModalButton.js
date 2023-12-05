@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import HelpModal from './HelpModal';
+import { AppContext } from '../App';
 
 function ModalButton({ content }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
+  const { openModal, closeModal, modalIsOpen } = useContext(AppContext);
 
   return (
     <div>

@@ -4,7 +4,9 @@ const DEFAULT_GAME_PROGRESS = {
   four: 0,
   five: 0,
   six: 0,
-  seven: 0
+  seven: 0,
+  eight: 0,
+  nine: 0
 };
 
 export function readSavedGameProgress() {

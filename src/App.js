@@ -27,6 +27,16 @@ function App() {
     setMatrixLength(newLength);
   }
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   const modalContent = (
     <div>
       <p>This website is designed to be used without instructions.</p>
@@ -40,11 +50,13 @@ function App() {
       </ul>
       <h4>Change grid size:</h4>
       <div className='grid-size-container'>
-        <button className="size-number" onClick={() => changeMatrixSize(3)}>3</button>
-        <button className="size-number" onClick={() => changeMatrixSize(4)}>4</button>
-        <button className="size-number" onClick={() => changeMatrixSize(5)}>5</button>
-        <button className="size-number" onClick={() => changeMatrixSize(6)}>6</button>
-        <button className="size-number" onClick={() => changeMatrixSize(7)}>7</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(3); closeModal();}}>3</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(4); closeModal();}}>4</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(5); closeModal();}}>5</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(6); closeModal();}}>6</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(7); closeModal();}}>7</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(8); closeModal();}}>8</button>
+        <button className="size-number" onClick={() => {changeMatrixSize(9); closeModal();}}>9</button>
       </div>
       <h4>Wins:</h4>
       <ul>
@@ -53,6 +65,8 @@ function App() {
         <li>5 x 5 Grid: <strong style={{ color: wins.five > 0 ? "#74c847" : "#888" }}>{wins.five || 0}</strong></li>
         <li>6 x 6 Grid: <strong style={{ color: wins.six > 0 ? "#74c847" : "#888" }}>{wins.six || 0}</strong></li>
         <li>7 x 7 Grid: <strong style={{ color: wins.seven > 0 ? "#74c847" : "#888" }}>{wins.seven || 0}</strong></li>
+        <li>8 x 8 Grid: <strong style={{ color: wins.eight > 0 ? "#74c847" : "#888" }}>{wins.eight || 0}</strong></li>
+        <li>9 x 9 Grid: <strong style={{ color: wins.nine > 0 ? "#74c847" : "#888" }}>{wins.nine || 0}</strong></li>
       </ul>
     </div>
   );
@@ -63,11 +77,14 @@ function App() {
       changeMatrixSize,
       matrixLength,
       wins,
-      setWins
+      setWins,
+      openModal,
+      closeModal,
+      modalIsOpen
     }}>
     <div className="App">
       {showPrompt && <Prompt />}
-      <div className="heading">Word 36</div>
+      <div className="heading">Word Grid</div>
       <ModalButton content={modalContent} />
       <div className='game'>
         <Letterbox />
