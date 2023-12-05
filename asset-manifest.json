@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/word36/static/css/main.edae035b.css",
-    "main.js": "/word36/static/js/main.7cddbc83.js",
+    "main.css": "/word36/static/css/main.a7977e09.css",
+    "main.js": "/word36/static/js/main.ea025e9f.js",
     "static/js/787.f87206ce.chunk.js": "/word36/static/js/787.f87206ce.chunk.js",
     "index.html": "/word36/index.html",
-    "main.edae035b.css.map": "/word36/static/css/main.edae035b.css.map",
-    "main.7cddbc83.js.map": "/word36/static/js/main.7cddbc83.js.map",
+    "main.a7977e09.css.map": "/word36/static/css/main.a7977e09.css.map",
+    "main.ea025e9f.js.map": "/word36/static/js/main.ea025e9f.js.map",
     "787.f87206ce.chunk.js.map": "/word36/static/js/787.f87206ce.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.edae035b.css",
-    "static/js/main.7cddbc83.js"
+    "static/css/main.a7977e09.css",
+    "static/js/main.ea025e9f.js"
   ]
 }
