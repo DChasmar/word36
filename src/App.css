@@ -160,27 +160,23 @@
 }
 
 .grid-size-container{
-  display: flex;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }
 
 .size-number{
-  width: 45px;
-  height: 45px;
+  width: min(10vh, 10vw);
+  height: min(10vh, 10vw);
   border-radius: 50%;
   border: 3px solid black;
-  font-size: 28px;
+  font-size: min(6vh, 6vw);
   font-weight: 500;
-  place-items: center;
   justify-content: center;
   text-align: center;
   background-color: black;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
-  min-width: "unset";
-  padding: "0";
 }
 
 .dragged-element {
