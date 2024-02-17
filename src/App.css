@@ -164,7 +164,6 @@
 }
 
 .size-number{
-  display: grid;
   width: min(10vh, 10vw);
   height: min(10vh, 10vw);
   border-radius: 50%;
