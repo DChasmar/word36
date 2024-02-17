@@ -152,7 +152,6 @@
   color: #fff;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 500;
   line-height: 28px;
   margin-bottom: 8px;
   cursor: pointer;
@@ -165,19 +164,19 @@
 }
 
 .size-number{
+  display: grid;
   width: min(10vh, 10vw);
   height: min(10vh, 10vw);
-  border-radius: 20%;
+  border-radius: 50%;
   border: 3px solid black;
   font-size: min(5vh, 5vw);
-  font-weight: 500;
   justify-content: center;
   text-align: center;
   background-color: black;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
-  gap: 5px;
+  margin: 5px;
 }
 
 .dragged-element {
